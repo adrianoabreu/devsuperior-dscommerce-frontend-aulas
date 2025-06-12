@@ -1,38 +1,24 @@
 import './styles.css';
 import ButtonInverse from "../../../components/ButtonInverse";
 import ButtonPrimary from "../../../components/ButtonPrimary";
-import HeaderClient from "../../../components/HeaderClient";
 import ProductDetailsCard from "../../../components/ProductDetailsCard";
-import type { ProductDTO } from '../../../models/product';
-
-const product: ProductDTO = {
-  id: 2,
-  name: "Smart TV",
-  description: "Smart TV 42 polegadas wi-fi",
-  imgUrl: "https://raw.githubusercontent.com/devsuperior/dscatalog-resources/refs/heads/master/backend/img/2-big.jpg",
-  price: 2500.99,
-  categories: [
-    {
-      id: 2,
-      name: "Eletrônicos"
-    },
-    {
-      id: 3,
-      name: "Computadores"
-    },
-    {
-      id: 4,
-      name: "Importados"
-    }
-  ]
-}
+import * as productService from '../../../services/product-service';
+import { useParams } from 'react-router-dom';
 
 export default function ProductDetails() {
-  return (
 
+  const params = useParams();//useParams - objeto que lê conteudo dos parametros de rota.
+
+  const product = productService.findById(Number(params.productId));
+
+  return (
     <main>
       <section id="product-details-section" className="dsc-container">
-        <ProductDetailsCard product={product} />
+        {
+          product &&
+          <ProductDetailsCard product={product} />
+        }
+
         <div className="dsc-btn-page-container">
           <ButtonPrimary text="Comprar" />
           <ButtonInverse text="Inicioooooo" />
