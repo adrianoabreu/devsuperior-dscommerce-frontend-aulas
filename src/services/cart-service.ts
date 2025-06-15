@@ -19,3 +19,8 @@ export function addProduct(product: ProductDTO){
         cartRepository.save(cart);
     }
 }
+
+//limpando carrinho do localStorage
+export function clearCart(){
+    cartRepository.clear();
+}
