@@ -46,6 +46,12 @@ export function getAccessTokenPayload(): AccessTokenPayloadDTO | undefined {
     }
 }
 
+//Função que verifica se usuario ainda está autenticado
+export function isAuthenticated(): boolean {
+    let tokenPayload = getAccessTokenPayload();
+    return tokenPayload && tokenPayload.exp * 1000 > Date.now() ? true : false;
+}
+
 
 
 
