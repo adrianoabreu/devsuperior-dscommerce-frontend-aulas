@@ -10,6 +10,7 @@ import Admin from './routes/Admin/index.tsx';
 import AdminHome from './routes/Admin/AdminHome/index.tsx';
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import {history} from './utils/history';
+import { PrivateRoute } from './components/PrivateRoute/index.tsx';
 
 export default function App() {
 
@@ -31,7 +32,7 @@ export default function App() {
         <Route path="cart" element={<Cart/>}/>
         <Route path="login" element={<Login/>}/>
       </Route>
-      <Route path="/admin/" element={<Admin/>}>
+      <Route path="/admin/" element={<PrivateRoute><Admin/></PrivateRoute>}>
         <Route index element={<AdminHome/>}/>
       </Route>
       <Route path="*" element={<Navigate to="/" />}/>
