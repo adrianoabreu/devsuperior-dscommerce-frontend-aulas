@@ -16,6 +16,8 @@ import { ContextToken } from './utils/context-token.ts';
 import * as authService from './services/auth-services.ts';
 import * as cartService from './services/cart-service.ts';
 import Confirmation from './routes/ClientHome/Confirmation/index.tsx';
+import ProductListing from './routes/Admin/ProductListing/index.tsx';
+import ProductForm from './routes/Admin/ProductForm/index.tsx';
 
 export default function App() {
 
@@ -50,7 +52,10 @@ export default function App() {
               <Route path="confirmation/:orderId" element={<PrivateRoute><Confirmation /></PrivateRoute>} />
             </Route>
             <Route path="/admin/" element={<PrivateRoute roles={['ROLE_ADMIN']}><Admin /></PrivateRoute>}>
-              <Route index element={<AdminHome />} />
+              <Route index element={<Navigate to="/admin/home" />} />
+              <Route path="home" element={<AdminHome />} />              
+              <Route path="products" element={<ProductListing />} />
+              <Route path="products/:productId" element={<ProductForm />} />
             </Route>
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
