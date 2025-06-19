@@ -5,10 +5,11 @@ import iconAdmin from '../../assets/admin.svg';
 import * as authService from '../../services/auth-services';
 import { useContext } from 'react';
 import { ContextToken } from '../../utils/context-token';
+import LoggedUser from '../LoggedUser';
 
 export default function HeaderClient() {
 
-  const {contextTokenPayload} = useContext(ContextToken);
+  const { contextTokenPayload } = useContext(ContextToken);
 
   return (
     <header className="dsc-header-client">
@@ -33,9 +34,7 @@ export default function HeaderClient() {
               </div>
             </Link>
           </div>
-          <Link to="/login">
-            Entrar
-          </Link>
+          <LoggedUser />
         </div>
       </nav>
     </header>
