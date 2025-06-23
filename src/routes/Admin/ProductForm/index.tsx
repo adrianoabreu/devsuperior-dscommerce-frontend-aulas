@@ -4,13 +4,18 @@ import { useEffect, useState } from 'react';
 import * as forms from '../../../utils/forms';
 import FormInput from '../../../components/FormInput';
 import * as productService from '../../../services/product-service';
+import * as categoryService from '../../../services/category-service';
 import FormTextArea from '../../../components/FormTextArea';
+import Select from 'react-select';
+import type { CategoryDTO } from '../../../models/category';
 
 export default function ProductForm() {
 
     const params = useParams();
 
     const isEditing = params.productId !== 'create';
+
+    const [categories, setCategories] = useState<CategoryDTO[]>([]);
 
     const [formData, setFormData] = useState<any>({
         name: {
@@ -19,9 +24,9 @@ export default function ProductForm() {
             name: "name",
             type: "text",
             placeholder: "Nome",
-            validation: function(value: string) {
+            validation: function (value: string) {
                 return /^.{3,80}$/.test(value); //expressão regular para validar tamanho de caracteres do campo nome do produto.
-//              return value.length >= 3 && value.length <= 80; validar tamanho de caracteres do campo nome do produto.
+                //              return value.length >= 3 && value.length <= 80; validar tamanho de caracteres do campo nome do produto.
             },
             message: "Favor informar um nome de 3 a 80 caracteres"
         },
@@ -31,7 +36,7 @@ export default function ProductForm() {
             name: "price",
             type: "number",
             placeholder: "Preço",
-            validation: function(value: any) {
+            validation: function (value: any) {
                 return Number(value) > 0;
             },
             message: "Favor informar um valor positivo"
@@ -49,9 +54,9 @@ export default function ProductForm() {
             name: "description",
             type: "text",
             placeholder: "Descrição",
-            validation: function(value: string) {
+            validation: function (value: string) {
                 return /^.{10,}$/.test(value); //expressão regular para validar tamanho de caracteres do campo descrição.
-//              return value.length >= 10; validar tamanho de caracteres do campo descrição.
+                //              return value.length >= 10; validar tamanho de caracteres do campo descrição.
             },
             message: "A descrição deve ter pelo menos 10 caracteres."
         },
@@ -69,6 +74,14 @@ export default function ProductForm() {
                     setFormData(forms.updateAll(formData, response.data));
                 })
         }
+    }, []);
+
+    //Recupera categorias do backend para editar no formulario
+    useEffect(() => {
+        categoryService.findAllRequest()
+            .then(response => {
+                setCategories(response.data);
+            });
     }, []);
 
     function handleTurnDirty(name: string) {
@@ -109,12 +122,12 @@ export default function ProductForm() {
                                 />
                             </div>
                             <div>
-                                <select className="dsc-form-control dsc-select" required>
-                                    <option value="" disabled selected>Caregorias</option>
-                                    <option value="1">Valor 1</option>
-                                    <option value="2">Valor 2</option>
-                                </select>
-
+                                <Select
+                                    options={categories}
+                                    isMulti
+                                    getOptionLabel={(obj: any) => obj.name}
+                                    getOptionValue={(obj: any) => String(obj.id)}
+                                />
                             </div>
                             <div>
                                 <FormTextArea
