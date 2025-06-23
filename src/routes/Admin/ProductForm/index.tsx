@@ -6,8 +6,8 @@ import FormInput from '../../../components/FormInput';
 import * as productService from '../../../services/product-service';
 import * as categoryService from '../../../services/category-service';
 import FormTextArea from '../../../components/FormTextArea';
-import Select from 'react-select';
 import type { CategoryDTO } from '../../../models/category';
+import FormSelect from '../../../components/FormSelect';
 
 export default function ProductForm() {
 
@@ -60,6 +60,16 @@ export default function ProductForm() {
             },
             message: "A descrição deve ter pelo menos 10 caracteres."
         },
+        categories: {
+            value: "",
+            id: "categories",
+            name: "categories",
+            placeholder: "Categorias",
+            validation: function (value: CategoryDTO[]) {
+                return value.length > 0;
+            },
+            message: "Escolha ao menos uma categoria."
+        }
     });
 
     function handleInputChange(event: any) {
@@ -122,8 +132,14 @@ export default function ProductForm() {
                                 />
                             </div>
                             <div>
-                                <Select
+                                <FormSelect
+                                    {...formData.categories}
                                     options={categories}
+                                    onChange={(obj: any) => {
+                                        const newFormData = forms.update(formData, "categories", obj);
+                                        setFormData(newFormData);
+                                    }}
+                                    onTurnDirty={handleTurnDirty}
                                     isMulti
                                     getOptionLabel={(obj: any) => obj.name}
                                     getOptionValue={(obj: any) => String(obj.id)}
