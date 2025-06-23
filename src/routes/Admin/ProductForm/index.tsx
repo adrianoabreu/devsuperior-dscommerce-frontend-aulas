@@ -115,13 +115,19 @@ export default function ProductForm() {
             requestBody.id = params.productId;
         }
 
+        console.log(isEditing);
         const request = isEditing
-        ? productService.updateRequest(requestBody)
-        : productService.insertRequest(requestBody);
+            ? productService.updateRequest(requestBody)
+            : productService.insertRequest(requestBody);
 
         request
             .then(() => {
                 navigate("/admin/products");
+            })
+            .catch(error => {
+                console.log(error);
+                const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
+                setFormData(newInputs);
             });
     }
 

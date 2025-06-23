@@ -79,6 +79,16 @@ export function hasAnyInvalid(inputs: any) {
     return false;
 }
 
+export function setBackendErrors(inputs: any, errors: any[]) {
+    console.log("ENTROU NO SETBACKEND DO FORMS.TS");
+    const newInputs = {...inputs};
+    errors.forEach(item => {
+        newInputs[item.fieldName].message = item.message;
+        newInputs[item.fieldName].dirty = "true";
+        newInputs[item.fieldName].invalid = "true";
+    });
+    return newInputs;
+}
 
 
 

@@ -48,6 +48,7 @@ export function insertRequest(obj: ProductDTO) {
         withCredentials: true,
         data: obj
     }
+    console.log("ENTROU NO INSERTREQUEST DO PRODUCT-SERVICE.TS");
      return requestBackend(config);
 }
 
