@@ -40,9 +40,7 @@ export default function ProductForm() {
     });
 
     function handleInputChange(event: any) {
-        const dataUpdated = forms.update(formData, event.target.name, event.target.value);
-        const dataValidated = forms.validate(dataUpdated, event.target.name);
-        setFormData(dataValidated);
+        setFormData(forms.updateAndValidate(formData, event.target.name, event.target.value));
     }
 
     //Recupera produto do backend para editar no formulario
@@ -56,9 +54,7 @@ export default function ProductForm() {
     }, []);
 
     function handleTurnDirty(name: string) {
-        const newFormData = forms.toDirty(formData, name);
-        setFormData(newFormData);
-
+        setFormData(forms.dirtyAndValidate(formData, name));
     }
 
     return (
